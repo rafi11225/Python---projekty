@@ -1,0 +1,1 @@
+Są to programy tworzone podczas nauki podstaw
