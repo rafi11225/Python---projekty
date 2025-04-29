@@ -1,5 +1,5 @@
 import requests
-##link = (  "https://www.uzumymw.com", "https://www.GTA-SITE.pl")
+
 ##for url in link:
   ##  wynik = requests.get(url)
 wynik = requests.get(#URL) 
