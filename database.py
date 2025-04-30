@@ -25,8 +25,8 @@ def insert_to_db(name, cookie):
 def show_db():
     conn = get_db()
     cur = conn.cursor()
-    cur.execute("SELECT page_name, cookie_session FROM cookies")
+    cur.execute("SELECT name_page, cookie_session FROM cookies")
     show_me = cur.fetchall()
     for row in show_me:
-        print(f"Page: {row['page_name']} Cookie session: {row['cookie_session']}")
+        print(f"Page: {row['name_page']} Cookie session: {row['cookie_session']}")
     conn.close()

